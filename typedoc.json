@@ -1,0 +1,8 @@
+{
+  "out": "docs",
+  "entryPoints": ["./index.ts"],
+  "name": "ts-template",
+  "exclude": "test/**/*",
+  "hideGenerator": true,
+  "gitRevision": "main"
+}
