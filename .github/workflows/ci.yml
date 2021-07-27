@@ -1,0 +1,106 @@
+name: CI
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@main
+        with:
+          node-version: 16
+          check-latest: true
+
+      - name: Node.js version
+        run: node --version
+
+      - name: npm version
+        run: npm --version
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Commitlint
+        run: npm run commitlint:all
+
+      - name: Prettier
+        run: npm run prettier
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Tests
+        run: npm run test:ci
+
+      - name: Publish (test)
+        run: npm run publish:test
+
+      - name: Coverage
+        run: npm run coverage:ci
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+
+      - uses: actions/setup-node@main
+        with:
+          node-version: 16
+          check-latest: true
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Docs
+        run: npm run docs:build
+
+  release:
+    needs: [test, docs]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@main
+        with:
+          node-version: 16
+          check-latest: true
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Decrypt PGP key
+        run: ./.github/scripts/decrypt.sh
+        env:
+          PRIVATE_KEY_PASSPHRASE: ${{ secrets.PRIVATE_KEY_PASSPHRASE }}
+
+      - name: Setup git
+        run: ./.github/scripts/git.sh
+        env:
+          PGP_KEY_ID: ${{ secrets.PGP_KEY_ID }}
+
+      - name: Release
+        run: npm run release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
+          GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Cleanup
+        run: ./.github/scripts/cleanup.sh

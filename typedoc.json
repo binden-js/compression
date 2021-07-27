@@ -1,7 +1,7 @@
 {
   "out": "docs",
   "entryPoints": ["./index.ts"],
-  "name": "ts-template",
+  "name": "@kauai/compression",
   "exclude": "test/**/*",
   "hideGenerator": true,
   "gitRevision": "main"
