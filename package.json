@@ -65,5 +65,8 @@
     "semantic-release": "^17.4.4",
     "ts-node": "^10.0.0",
     "typedoc": "^0.21.2"
+  },
+  "peerDependencies": {
+    "kauai": "^1.0.0"
   }
 }
