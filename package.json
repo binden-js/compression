@@ -1,6 +1,6 @@
 {
   "name": "@kauai/compression",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Kauai compression middleware",
   "main": "build/index.js",
   "type": "module",
