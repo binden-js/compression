@@ -39,7 +39,7 @@
     "commitlint": "commitlint --verbose",
     "commitlint:all": "npm run commitlint -- --from=$( git rev-list --max-parents=0 $( git rev-parse --abbrev-ref HEAD ) )",
     "coverage": "c8 --exclude 'build/test/' npm test && c8 report --reporter=lcov",
-    "coverage:ci": "npm run build && npm run coverage && npm run build:remove",
+    "coverage:ci": "npm run build && npm run coverage",
     "docs:build": "npm run docs:remove && typedoc && npm run prettier:write -- --ignore-path .prettierignore_docs",
     "docs:remove": "rm -rf ./docs",
     "install:clean": "rm -fr node_modules && rm -f package-lock.json && npm install",
@@ -75,6 +75,6 @@
     "typedoc": "^0.22.10"
   },
   "peerDependencies": {
-    "kauai": "^1.0.0"
+    "kauai": "^1.0.6"
   }
 }
