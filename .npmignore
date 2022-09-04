@@ -1,7 +1,4 @@
-# nyc test coverage
-.nyc_output
-
-# Coverage directory used by nyc
+# Coverage directory used by c8
 coverage
 
 # GitHub folder
