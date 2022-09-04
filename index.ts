@@ -1,9 +1,9 @@
-import { createDeflate, createGzip, createBrotliCompress } from "zlib";
-import { Middleware, IMiddlewareParams, Context } from "kauai";
+import { createDeflate, createGzip, createBrotliCompress } from "node:zlib";
+import { Middleware, IMiddlewareParams, Context } from "binden";
 
-export const DefaultCompressionion = "br";
+export const DefaultCompression = "br";
 
-export type IComressFormats = "br" | "gzip" | "x-gzip" | "deflate" | "auto";
+export type IComressFormats = "auto" | "br" | "deflate" | "gzip";
 
 export interface ICompressionOptions extends IMiddlewareParams {
   format?: IComressFormats;
@@ -34,7 +34,9 @@ export class Compression extends Middleware {
 
     response.setHeader(
       "Content-Encoding",
-      raw ? [format, ...(Array.isArray(raw) ? raw : [`${raw}`])] : format
+      typeof raw === "undefined"
+        ? format
+        : [format, ...(Array.isArray(raw) ? raw : [`${raw}`])]
     );
 
     const compress =
@@ -96,15 +98,24 @@ export class Compression extends Middleware {
 
     const { accept_encoding } = context.request;
 
+    if (!accept_encoding.length) {
+      return DefaultCompression;
+    }
+
     for (const { encoding } of accept_encoding) {
       switch (encoding) {
-        case "identity":
-        case "compress":
-          break;
         case "*":
-          return DefaultCompressionion;
-        default:
+          return DefaultCompression;
+        case "identity":
+          return "identity";
+        case "x-gzip":
+          return "gzip";
+        case "br":
+        case "deflate":
+        case "gzip":
           return encoding;
+        default:
+          break;
       }
     }
 
@@ -112,4 +123,4 @@ export class Compression extends Middleware {
   }
 }
 
-export default Compression;
+export default new Compression();

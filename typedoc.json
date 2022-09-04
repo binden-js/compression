@@ -1,7 +1,7 @@
 {
   "out": "docs",
   "entryPoints": ["./index.ts"],
-  "name": "@kauai/compression",
+  "name": "@binden/compression",
   "exclude": "test/**/*",
   "hideGenerator": true,
   "gitRevision": "main"

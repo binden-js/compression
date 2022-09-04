@@ -1,7 +1,4 @@
-# nyc test coverage
-.nyc_output
-
-# Coverage directory used by nyc
+# Coverage directory used by c8
 coverage
 
 # GitHub folder
@@ -9,7 +6,7 @@ coverage
 
 # Tests
 test
-build/test
+dist/test
 
 # Documentation
 docs
@@ -29,9 +26,11 @@ docs
 # lint-staged config - https://github.com/okonet/lint-staged
 .lintstagedrc.json
 
+# mocha config - https://github.com/mochajs/mocha
+.mocharc.json
+
 # Prettier ignore
 .prettierignore
-.prettierignore_docs
 
 # semantic-release config - https://semantic-release.gitbook.io/semantic-release/
 .releaserc.json
