@@ -25,20 +25,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Commitlint
-        run: npm run commitlint:all
-
       - name: Prettier
         run: npm run prettier
 
       - name: ESLint
         run: npm run lint
 
+      - name: Commitlint
+        run: npm run commitlint:all
+
       - name: Tests
-        run: npm run test:ci
+        run: npm run test:ts
 
       - name: Publish (test)
-        run: npm run publish:test
+        run: npm publish --dry-run
 
       - name: Coverage
         run: npm run coverage
