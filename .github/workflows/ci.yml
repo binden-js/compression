@@ -41,7 +41,7 @@ jobs:
         run: npm run publish:test
 
       - name: Coverage
-        run: npm run coverage:ci
+        run: npm run coverage
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
