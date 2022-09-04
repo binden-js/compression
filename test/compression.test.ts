@@ -6,7 +6,7 @@ import {
   inflate as inflateAsync,
   InputType,
 } from "zlib";
-import { Kauai, Middleware, Context } from "kauai";
+import { Binden, Middleware, Context } from "binden";
 
 import { Compression } from "../index.js";
 
@@ -50,7 +50,7 @@ const port = 8080;
 const url = `http://localhost:${port}`;
 
 class TestMiddleware extends Middleware {
-  #data?: Buffer | string;
+  #data: Buffer | string | undefined;
   public constructor(data?: Buffer | string) {
     super();
     this.#data = data;
@@ -62,11 +62,11 @@ class TestMiddleware extends Middleware {
 }
 
 suite("Compression", () => {
-  let app: Kauai;
+  let app: Binden;
   let server: Server;
 
   setup((done) => {
-    app = new Kauai();
+    app = new Binden();
     server = app.createServer().listen(port, done);
   });
 

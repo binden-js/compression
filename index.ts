@@ -1,5 +1,5 @@
 import { createDeflate, createGzip, createBrotliCompress } from "zlib";
-import { Middleware, IMiddlewareParams, Context } from "kauai";
+import { Middleware, IMiddlewareParams, Context } from "binden";
 
 export const DefaultCompressionion = "br";
 
