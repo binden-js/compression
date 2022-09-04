@@ -31,7 +31,6 @@ docs
 
 # Prettier ignore
 .prettierignore
-.prettierignore_docs
 
 # semantic-release config - https://semantic-release.gitbook.io/semantic-release/
 .releaserc.json
