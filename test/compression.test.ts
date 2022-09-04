@@ -89,7 +89,9 @@ suite("Compression", () => {
 
             response
               .on("data", (data: Buffer) => chunks.push(data))
-              .on("end", () => resolve(Buffer.concat(chunks)))
+              .on("end", () => {
+                resolve(Buffer.concat(chunks));
+              })
               .on("error", reject);
           } catch (error) {
             reject(error);
@@ -126,7 +128,9 @@ suite("Compression", () => {
 
             response
               .on("data", (data: Buffer) => chunks.push(data))
-              .on("end", () => resolve(Buffer.concat(chunks)))
+              .on("end", () => {
+                resolve(Buffer.concat(chunks));
+              })
               .on("error", reject);
           } catch (error) {
             reject(error);
@@ -161,7 +165,9 @@ suite("Compression", () => {
             const chunks = [] as Buffer[];
             response
               .on("data", (data: Buffer) => chunks.push(data))
-              .on("end", () => resolve(Buffer.concat(chunks).toString()))
+              .on("end", () => {
+                resolve(Buffer.concat(chunks).toString());
+              })
               .on("error", reject);
           } catch (error) {
             reject(error);
@@ -191,7 +197,9 @@ suite("Compression", () => {
           const chunks = [] as Buffer[];
           response
             .on("data", (data: Buffer) => chunks.push(data))
-            .on("end", () => resolve(Buffer.concat(chunks)))
+            .on("end", () => {
+              resolve(Buffer.concat(chunks));
+            })
             .on("error", reject);
         } catch (error) {
           reject(error);
@@ -221,7 +229,9 @@ suite("Compression", () => {
           const chunks = [] as Buffer[];
           response
             .on("data", (data: Buffer) => chunks.push(data))
-            .on("end", () => resolve(Buffer.concat(chunks)))
+            .on("end", () => {
+              resolve(Buffer.concat(chunks));
+            })
             .on("error", reject);
         } catch (error) {
           reject(error);
@@ -251,7 +261,9 @@ suite("Compression", () => {
           const chunks = [] as Buffer[];
           response
             .on("data", (data: Buffer) => chunks.push(data))
-            .on("end", () => resolve(Buffer.concat(chunks)))
+            .on("end", () => {
+              resolve(Buffer.concat(chunks));
+            })
             .on("error", reject);
         } catch (error) {
           reject(error);
@@ -281,7 +293,9 @@ suite("Compression", () => {
           const chunks = [] as Buffer[];
           response
             .on("data", (data: Buffer) => chunks.push(data))
-            .on("end", () => resolve(Buffer.concat(chunks)))
+            .on("end", () => {
+              resolve(Buffer.concat(chunks));
+            })
             .on("error", reject);
         } catch (error) {
           reject(error);
@@ -314,7 +328,9 @@ suite("Compression", () => {
           const chunks = [] as Buffer[];
           response
             .on("error", reject)
-            .on("end", () => resolve(Buffer.concat(chunks)))
+            .on("end", () => {
+              resolve(Buffer.concat(chunks));
+            })
             .on("data", (data: Buffer) => chunks.push(data));
         } catch (error) {
           reject(error);

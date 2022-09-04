@@ -3,7 +3,7 @@ import { Middleware, IMiddlewareParams, Context } from "kauai";
 
 export const DefaultCompressionion = "br";
 
-export type IComressFormats = "br" | "gzip" | "x-gzip" | "deflate" | "auto";
+export type IComressFormats = "auto" | "br" | "deflate" | "gzip" | "x-gzip";
 
 export interface ICompressionOptions extends IMiddlewareParams {
   format?: IComressFormats;
@@ -34,7 +34,9 @@ export class Compression extends Middleware {
 
     response.setHeader(
       "Content-Encoding",
-      raw ? [format, ...(Array.isArray(raw) ? raw : [`${raw}`])] : format
+      typeof raw === "undefined"
+        ? format
+        : [format, ...(Array.isArray(raw) ? raw : [`${raw}`])]
     );
 
     const compress =
