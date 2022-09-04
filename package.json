@@ -1,7 +1,7 @@
 {
   "name": "@binden/compression",
   "version": "1.0.0",
-  "description": "Kauai compression middleware",
+  "description": "binden compression middleware",
   "main": "dist/index.js",
   "type": "module",
   "types": "dist/index.d.ts",
@@ -57,7 +57,7 @@
   },
   "homepage": "https://github.com/binden-js/compression#readme",
   "peerDependencies": {
-    "kauai": "^1.0.6"
+    "binden": "^1.1.1"
   },
   "devDependencies": {
     "@binden/commitlint-config": "^1.0.0",
