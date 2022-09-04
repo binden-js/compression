@@ -61,10 +61,10 @@
   },
   "devDependencies": {
     "@b2broker/tsconfig": "^1.0.3",
+    "@binden/commitlint-config": "^1.0.0",
     "@binden/semantic-release-config": "^1.1.0",
     "@types/mocha": "^9.1.1",
     "c8": "^7.12.0",
-    "commitlint-config-b2broker": "^1.0.6",
     "eslint-config-b2broker-ts": "^2.0.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
