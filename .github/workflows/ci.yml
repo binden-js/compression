@@ -29,7 +29,7 @@ jobs:
         run: npm run commitlint
 
       - name: Tests
-        run: npm run test:ts
+        run: npm test
 
       - name: Publish (test)
         run: npm publish --dry-run

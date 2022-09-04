@@ -26,6 +26,9 @@ docs
 # lint-staged config - https://github.com/okonet/lint-staged
 .lintstagedrc.json
 
+# mocha config - https://github.com/mochajs/mocha
+.mocharc.json
+
 # Prettier ignore
 .prettierignore
 
