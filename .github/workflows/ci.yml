@@ -94,7 +94,7 @@ jobs:
           PGP_KEY_ID: ${{ secrets.PGP_KEY_ID }}
 
       - name: Release
-        run: npm run release
+        run: npx semantic-release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
