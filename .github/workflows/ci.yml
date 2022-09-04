@@ -29,7 +29,7 @@ jobs:
         run: npm run prettier
 
       - name: ESLint
-        run: npm run lint
+        run: npm run eslint
 
       - name: Commitlint
         run: npm run commitlint:all
