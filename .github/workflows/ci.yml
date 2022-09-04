@@ -31,8 +31,8 @@ jobs:
       - name: ESLint
         run: npm run eslint
 
-      - name: Commitlint
-        run: npm run commitlint:all
+      - name: commitlint
+        run: npm run commitlint
 
       - name: Tests
         run: npm run test:ts

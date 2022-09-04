@@ -9,7 +9,7 @@ coverage
 
 # Tests
 test
-build/test
+dist/test
 
 # Documentation
 docs
