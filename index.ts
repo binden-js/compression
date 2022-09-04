@@ -123,4 +123,4 @@ export class Compression extends Middleware {
   }
 }
 
-export default Compression;
+export default new Compression();

@@ -13,7 +13,7 @@ npm install @binden/compression
 ```typescript
 import Compression from "@binden/compression";
 
-app.use(new Compression({ format: "br" }));
+app.use(Compression);
 ```
 
 ### Test
