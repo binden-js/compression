@@ -12,7 +12,7 @@ A clear and concise description of what the bug is.
 Steps to reproduce the behavior (add some code):
 
 ```typescript
-import Compression from "@kauai/compression";
+import Compression from "@binden/compression";
 // more code to reproduce the problem
 ```
 
@@ -21,9 +21,9 @@ A clear and concise description of what you expected to happen.
 
 **Please complete the following information:**
 
-- Node.js version: [e.g. v16.5.0]
-- NPM version: [e.g. 7.19.1]
-- `kauai` version [e.g. 1.0.0]
+- Node.js version: [e.g. v18.8.0]
+- NPM version: [e.g. 8.18.0]
+- `binden` version [e.g. 1.0.0]
 
 **Additional context**
 Add any other context about the problem here.
