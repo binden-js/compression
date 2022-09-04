@@ -1,6 +1,6 @@
 {
-  "name": "@kauai/compression",
-  "version": "1.0.1",
+  "name": "@binden/compression",
+  "version": "1.0.0",
   "description": "Kauai compression middleware",
   "main": "build/index.js",
   "type": "module",
@@ -8,29 +8,6 @@
   "engines": {
     "node": ">=16.5.0",
     "npm": ">=7.19.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/b2broker/compression.git"
-  },
-  "keywords": [
-    "compress",
-    "compression",
-    "br",
-    "gzip",
-    "deflate"
-  ],
-  "author": "Sergey Bakulin <sbakulin@b2broker.net>",
-  "license": "AGPL-3.0-only",
-  "bugs": {
-    "url": "https://github.com/b2broker/compression/issues"
-  },
-  "homepage": "https://github.com/b2broker/compression#readme",
-  "directories": {
-    "test": "test"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "scripts": {
     "build": "npm run build:remove && tsc",
@@ -42,10 +19,11 @@
     "coverage:ci": "npm run build && npm run coverage",
     "docs:build": "npm run docs:remove && typedoc && npm run prettier:write -- --ignore-path .prettierignore_docs",
     "docs:remove": "rm -rf ./docs",
-    "install:clean": "rm -fr node_modules && rm -f package-lock.json && npm install",
+    "install:clean": "npm install",
     "lint": "eslint --ext .ts ./",
     "lint:fix": "npm run lint -- --fix",
     "postpublish": "npm run build:remove",
+    "preinstall:clean": "rm -rf node_modules package-lock.json",
     "prepare": "husky install",
     "prepublishOnly": "npm run build && npm run prettier:write",
     "prettier": "prettier -c .",
@@ -55,6 +33,31 @@
     "test": "mocha 'build/test/**/*.spec.js' --ui=tdd --full-trace --bail",
     "test:ci": "npm run build && npm test && npm run build:remove",
     "ts-node": "node --loader ts-node/esm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binden-js/compression.git"
+  },
+  "keywords": [
+    "compress",
+    "compression",
+    "br",
+    "gzip",
+    "deflate",
+    "binden"
+  ],
+  "author": "Sergey Bakulin <sergey.bakulin.github@gmail.com>",
+  "license": "AGPL-3.0-only",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "bugs": {
+    "url": "https://github.com/binden-js/compression/issues"
+  },
+  "homepage": "https://github.com/binden-js/compression#readme",
+  "peerDependencies": {
+    "kauai": "^1.0.6"
   },
   "devDependencies": {
     "@b2broker/tsconfig": "^1.0.3",
@@ -74,7 +77,11 @@
     "ts-node": "^10.4.0",
     "typedoc": "^0.22.10"
   },
-  "peerDependencies": {
-    "kauai": "^1.0.6"
+  "publishConfig": {
+    "access": "public"
+  },
+  "funding": {
+    "type": "Coinbase Commerce",
+    "url": "https://commerce.coinbase.com/checkout/eddfb0f7-20e7-4e0d-8e04-232bbdf0b397"
   }
 }
