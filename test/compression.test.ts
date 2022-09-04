@@ -1,5 +1,4 @@
-import { deepStrictEqual, ok } from "assert";
-import { Server, request } from "http";
+import { deepStrictEqual, ok } from "node:assert";
 import {
   brotliDecompress as brotliDecompressAsync,
   gunzip as gunzipAsync,
@@ -7,8 +6,17 @@ import {
   InputType,
 } from "zlib";
 import { Binden, Middleware, Context } from "binden";
+import type { Server } from "node:http";
 
-import { Compression } from "../index.js";
+import {
+  getGlobalDispatcher,
+  request,
+  setGlobalDispatcher,
+  Agent,
+  Dispatcher,
+} from "undici";
+
+import { Compression, DefaultCompression, IComressFormats } from "../index.js";
 
 function brotliDecompress(data: InputType): Promise<Buffer> {
   return new Promise<Buffer>((resolve, reject) => {
@@ -47,7 +55,7 @@ function inflate(data: InputType): Promise<Buffer> {
 }
 
 const port = 8080;
-const url = `http://localhost:${port}`;
+const url = new URL(`http://localhost:${port}`);
 
 class TestMiddleware extends Middleware {
   #data: Buffer | string | undefined;
@@ -64,119 +72,149 @@ class TestMiddleware extends Middleware {
 suite("Compression", () => {
   let app: Binden;
   let server: Server;
+  let original_agent: Dispatcher;
+
+  suiteSetup(() => {
+    original_agent = getGlobalDispatcher();
+    const agent = new Agent({ keepAliveTimeout: 1, keepAliveMaxTimeout: 1 });
+    setGlobalDispatcher(agent);
+  });
 
   setup((done) => {
     app = new Binden();
     server = app.createServer().listen(port, done);
   });
 
-  test("auto", async () => {
+  test("constructor (with default options)", async () => {
     const expected = "Hello World";
-
+    const format = "deflate";
     app.use(new Compression(), new TestMiddleware(expected));
 
-    const raw = await new Promise<Buffer>((resolve, reject) => {
-      request(
-        new URL(url),
-        { headers: { "Accept-Encoding": "x-gzip" } },
-        (response) => {
-          try {
-            const ce = response.headers["content-encoding"];
-            deepStrictEqual(ce, "x-gzip");
-            deepStrictEqual(response.statusCode, 200);
+    const headers = { "Accept-Encoding": format };
+    const response = await request(url, { headers });
 
-            const chunks = [] as Buffer[];
+    deepStrictEqual(response.headers["content-encoding"], format);
+    deepStrictEqual(response.statusCode, 200);
 
-            response
-              .on("data", (data: Buffer) => chunks.push(data))
-              .on("end", () => {
-                resolve(Buffer.concat(chunks));
-              })
-              .on("error", reject);
-          } catch (error) {
-            reject(error);
-          }
-        }
-      )
-        .on("error", reject)
-        .end();
-    });
-
-    const actual = (await gunzip(raw)).toString();
+    const body = await response.body.arrayBuffer();
+    const actual = (await inflate(body)).toString();
 
     deepStrictEqual(actual, expected);
   });
 
-  test("auto (multiple encodings)", async () => {
+  test("auto (x-gzip)", async () => {
     const expected = "Hello World";
+    app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
 
-    app.use(new Compression(), new TestMiddleware(expected));
+    const headers = { "Accept-Encoding": "x-gzip" };
+    const response = await request(url, { headers });
 
-    const raw = await new Promise<Buffer>((resolve, reject) => {
-      const ae = [" x-gzip ;q= 0.5 ", " compress;q=0.4 ", "identity", " * "];
+    deepStrictEqual(response.headers["content-encoding"], "gzip");
+    deepStrictEqual(response.statusCode, 200);
 
-      request(
-        new URL(url),
-        { headers: { "Accept-Encoding": ae } },
-        (response) => {
-          try {
-            const ce = response.headers["content-encoding"];
-            deepStrictEqual(ce, "br");
-            deepStrictEqual(response.statusCode, 200);
+    const body = await response.body.arrayBuffer();
+    const actual = (await gunzip(body)).toString();
 
-            const chunks = [] as Buffer[];
+    deepStrictEqual(actual, expected);
+  });
 
-            response
-              .on("data", (data: Buffer) => chunks.push(data))
-              .on("end", () => {
-                resolve(Buffer.concat(chunks));
-              })
-              .on("error", reject);
-          } catch (error) {
-            reject(error);
-          }
-        }
-      )
-        .on("error", reject)
-        .end();
-    });
+  test("auto (gzip)", async () => {
+    const expected = "Hello World";
+    const format = "gzip";
+    app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
 
-    const actual = (await brotliDecompress(raw)).toString();
+    const headers = { "Accept-Encoding": format };
+    const response = await request(url, { headers });
+
+    deepStrictEqual(response.headers["content-encoding"], format);
+    deepStrictEqual(response.statusCode, 200);
+
+    const body = await response.body.arrayBuffer();
+    const actual = (await gunzip(body)).toString();
+
+    deepStrictEqual(actual, expected);
+  });
+
+  test("auto (br)", async () => {
+    const expected = "Hello World";
+    const format = "br";
+    app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
+
+    const headers = { "Accept-Encoding": format };
+    const response = await request(url, { headers });
+
+    deepStrictEqual(response.headers["content-encoding"], format);
+    deepStrictEqual(response.statusCode, 200);
+
+    const body = await response.body.arrayBuffer();
+    const actual = (await brotliDecompress(body)).toString();
+
+    deepStrictEqual(actual, expected);
+  });
+
+  test("auto (identity)", async () => {
+    const expected = "Hello World";
+    const format = "* ;q= 0.6, identity ;q= 0.7";
+    app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
+
+    const headers = { "Accept-Encoding": format };
+    const response = await request(url, { headers });
+
+    ok(typeof response.headers["content-encoding"] === "undefined");
+    deepStrictEqual(response.statusCode, 200);
+
+    const body = await response.body.arrayBuffer();
+    const actual = Buffer.from(body).toString();
+
+    deepStrictEqual(actual, expected);
+  });
+
+  test("auto (*)", async () => {
+    const expected = "Hello World";
+    const format = "* ;q= 0.8, identity ;q= 0.7";
+    app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
+
+    const headers = { "Accept-Encoding": format };
+    const response = await request(url, { headers });
+
+    deepStrictEqual(response.headers["content-encoding"], DefaultCompression);
+    deepStrictEqual(response.statusCode, 200);
+
+    const body = await response.body.arrayBuffer();
+    const actual = (await brotliDecompress(body)).toString();
+
+    deepStrictEqual(actual, expected);
+  });
+
+  test("auto (Default compression when no `Accept-Encoding` header is present)", async () => {
+    const expected = "Hello World";
+    app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
+
+    const headers = { "Accept-Encoding": "" };
+    const response = await request(url, { headers });
+
+    deepStrictEqual(response.headers["content-encoding"], DefaultCompression);
+    deepStrictEqual(response.statusCode, 200);
+
+    const body = await response.body.arrayBuffer();
+    const actual = (await brotliDecompress(body)).toString();
 
     deepStrictEqual(actual, expected);
   });
 
   test("auto (unsupported)", async () => {
     const expected = "Hello World";
+    const format = "compress";
+    app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
 
-    app.use(new Compression(), new TestMiddleware(expected));
+    const headers = { "Accept-Encoding": format };
+    const response = await request(url, { headers });
 
-    const actual = await new Promise<string>((resolve, reject) => {
-      const ae = [" compress ;q= 0.4 ", "identity"];
-      request(
-        new URL(url),
-        { headers: { "Accept-Encoding": ae } },
-        (response) => {
-          try {
-            const ce = response.headers["content-encoding"];
-            deepStrictEqual(typeof ce, "undefined");
-            deepStrictEqual(response.statusCode, 200);
+    ok(typeof response.headers["content-encoding"] === "undefined");
+    deepStrictEqual(response.statusCode, 200);
 
-            const chunks = [] as Buffer[];
-            response
-              .on("data", (data: Buffer) => chunks.push(data))
-              .on("end", () => {
-                resolve(Buffer.concat(chunks).toString());
-              })
-              .on("error", reject);
-          } catch (error) {
-            reject(error);
-          }
-        }
-      )
-        .on("error", reject)
-        .end();
-    });
+    const body = await response.body.arrayBuffer();
+    const actual = Buffer.from(body).toString();
 
     deepStrictEqual(actual, expected);
   });
@@ -184,62 +222,14 @@ suite("Compression", () => {
   test("gzip", async () => {
     const expected = "Hello World";
     const format = "gzip";
-
     app.use(new Compression({ format }), new TestMiddleware(expected));
 
-    const raw = await new Promise<Buffer>((resolve, reject) => {
-      request(new URL(url), (response) => {
-        try {
-          const ce = response.headers["content-encoding"];
-          deepStrictEqual(ce, format);
-          deepStrictEqual(response.statusCode, 200);
+    const response = await request(url);
 
-          const chunks = [] as Buffer[];
-          response
-            .on("data", (data: Buffer) => chunks.push(data))
-            .on("end", () => {
-              resolve(Buffer.concat(chunks));
-            })
-            .on("error", reject);
-        } catch (error) {
-          reject(error);
-        }
-      })
-        .on("error", reject)
-        .end();
-    });
-    const actual = (await gunzip(raw)).toString();
+    deepStrictEqual(response.headers["content-encoding"], format);
+    deepStrictEqual(response.statusCode, 200);
 
-    deepStrictEqual(actual, expected);
-  });
-
-  test("x-gzip", async () => {
-    const expected = "Hello World";
-    const format = "x-gzip";
-
-    app.use(new Compression({ format }), new TestMiddleware(expected));
-
-    const raw = await new Promise<Buffer>((resolve, reject) => {
-      request(new URL(url), (response) => {
-        try {
-          const ce = response.headers["content-encoding"];
-          deepStrictEqual(ce, format);
-          deepStrictEqual(response.statusCode, 200);
-
-          const chunks = [] as Buffer[];
-          response
-            .on("data", (data: Buffer) => chunks.push(data))
-            .on("end", () => {
-              resolve(Buffer.concat(chunks));
-            })
-            .on("error", reject);
-        } catch (error) {
-          reject(error);
-        }
-      })
-        .on("error", reject)
-        .end();
-    });
+    const raw = await response.body.arrayBuffer();
     const actual = (await gunzip(raw)).toString();
 
     deepStrictEqual(actual, expected);
@@ -248,30 +238,14 @@ suite("Compression", () => {
   test("br", async () => {
     const expected = "Hello World";
     const format = "br";
-
     app.use(new Compression({ format }), new TestMiddleware(expected));
 
-    const raw = await new Promise<Buffer>((resolve, reject) => {
-      request(new URL(url), (response) => {
-        try {
-          const ce = response.headers["content-encoding"];
-          deepStrictEqual(ce, format);
-          deepStrictEqual(response.statusCode, 200);
+    const response = await request(url);
 
-          const chunks = [] as Buffer[];
-          response
-            .on("data", (data: Buffer) => chunks.push(data))
-            .on("end", () => {
-              resolve(Buffer.concat(chunks));
-            })
-            .on("error", reject);
-        } catch (error) {
-          reject(error);
-        }
-      })
-        .on("error", reject)
-        .end();
-    });
+    deepStrictEqual(response.headers["content-encoding"], format);
+    deepStrictEqual(response.statusCode, 200);
+
+    const raw = await response.body.arrayBuffer();
     const actual = (await brotliDecompress(raw)).toString();
 
     deepStrictEqual(actual, expected);
@@ -280,71 +254,46 @@ suite("Compression", () => {
   test("deflate", async () => {
     const expected = "Hello World";
     const format = "deflate";
-
     app.use(new Compression({ format }), new TestMiddleware(expected));
 
-    const raw = await new Promise<Buffer>((resolve, reject) => {
-      request(new URL(url), (response) => {
-        try {
-          const ce = response.headers["content-encoding"];
-          deepStrictEqual(ce, format);
-          deepStrictEqual(response.statusCode, 200);
+    const response = await request(url);
 
-          const chunks = [] as Buffer[];
-          response
-            .on("data", (data: Buffer) => chunks.push(data))
-            .on("end", () => {
-              resolve(Buffer.concat(chunks));
-            })
-            .on("error", reject);
-        } catch (error) {
-          reject(error);
-        }
-      })
-        .on("error", reject)
-        .end();
-    });
+    deepStrictEqual(response.headers["content-encoding"], format);
+    deepStrictEqual(response.statusCode, 200);
+
+    const raw = await response.body.arrayBuffer();
     const actual = (await inflate(raw)).toString();
 
     deepStrictEqual(actual, expected);
   });
 
   test("Multiple compressions", async () => {
-    const expected = Buffer.from("Hello World");
-    const formats = ["x-gzip", "br", "deflate"] as const;
-
+    const expected = "Hello World";
+    const formats: readonly IComressFormats[] = ["gzip", "br", "deflate"];
     app.use(
       ...formats.map((format) => new Compression({ format })),
       new TestMiddleware(expected)
     );
 
-    const raw = await new Promise<Buffer>((resolve, reject) => {
-      request(new URL(url), (response) => {
-        try {
-          const ce = response.headers["content-encoding"];
-          deepStrictEqual(ce, [...formats].reverse().join(", "));
-          deepStrictEqual(response.statusCode, 200);
+    const response = await request(url);
 
-          const chunks = [] as Buffer[];
-          response
-            .on("error", reject)
-            .on("end", () => {
-              resolve(Buffer.concat(chunks));
-            })
-            .on("data", (data: Buffer) => chunks.push(data));
-        } catch (error) {
-          reject(error);
-        }
-      })
-        .on("error", reject)
-        .end();
-    });
-    const gzip = await gunzip(raw);
+    deepStrictEqual(
+      response.headers["content-encoding"],
+      [...formats].reverse()
+    );
+    deepStrictEqual(response.statusCode, 200);
+
+    const body = await response.body.arrayBuffer();
+    const gzip = await gunzip(Buffer.from(body));
     const br = await brotliDecompress(gzip);
-    const actual = await inflate(br);
+    const actual = (await inflate(br)).toString();
 
     deepStrictEqual(actual, expected);
   });
 
   teardown((done) => server.close(done));
+
+  suiteTeardown(() => {
+    setGlobalDispatcher(original_agent);
+  });
 });
