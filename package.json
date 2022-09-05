@@ -62,7 +62,7 @@
     "binden": "^1.1.1"
   },
   "devDependencies": {
-    "@binden/commitlint-config": "^1.0.0",
+    "@binden/commitlint-config": "^1.0.1",
     "@binden/semantic-release-config": "^1.1.1",
     "@binden/tsconfig": "^1.0.0",
     "@types/mocha": "^9.1.1",
