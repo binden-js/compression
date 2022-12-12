@@ -73,7 +73,7 @@
     "mocha": "^10.1.0",
     "prettier": "^2.8.0",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.23.21",
+    "typedoc": "^0.23.22",
     "undici": "^5.13.0"
   },
   "publishConfig": {
