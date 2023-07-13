@@ -272,14 +272,14 @@ suite("Compression", () => {
     const formats: readonly IComressFormats[] = ["gzip", "br", "deflate"];
     app.use(
       ...formats.map((format) => new Compression({ format })),
-      new TestMiddleware(expected)
+      new TestMiddleware(expected),
     );
 
     const response = await request(url);
 
     deepStrictEqual(
       response.headers["content-encoding"],
-      [...formats].reverse()
+      [...formats].reverse(),
     );
     deepStrictEqual(response.statusCode, 200);
 
