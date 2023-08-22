@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.1](https://github.com/binden-js/compression/compare/v1.0.0...v1.0.1) (2023-08-22)
+
+### Dependencies
+
+- bump `binden` from `v1.1.1` to `v1.2.1` ([02fca44](https://github.com/binden-js/compression/commit/02fca443854acefb7737dcd69d83f8c038dd2c2a))
+
 ## 1.0.0 (2022-09-04)
 
 ### Features
