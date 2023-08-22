@@ -36,7 +36,7 @@ export class Compression extends Middleware {
       "Content-Encoding",
       typeof raw === "undefined"
         ? format
-        : [format, ...(Array.isArray(raw) ? raw : [`${raw}`])]
+        : [format, ...(Array.isArray(raw) ? raw : [`${raw}`])],
     );
 
     const compress =
@@ -54,7 +54,7 @@ export class Compression extends Middleware {
           return function write(
             data?: unknown,
             encoding?: BufferEncoding,
-            cb?: (error?: Error | null) => void
+            cb?: (error?: Error | null) => void,
           ): void {
             compress.write(data, encoding, cb);
           };
@@ -62,7 +62,7 @@ export class Compression extends Middleware {
           return function end(
             data?: unknown,
             encoding?: BufferEncoding,
-            cb?: () => void
+            cb?: () => void,
           ): void {
             compress.end(data, encoding, cb);
           };
@@ -90,7 +90,7 @@ export class Compression extends Middleware {
 
   static #getFormat(
     context: Context,
-    format: IComressFormats
+    format: IComressFormats,
   ): Exclude<IComressFormats, "auto"> | "identity" {
     if (format !== "auto") {
       return format;
