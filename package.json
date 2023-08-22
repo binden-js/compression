@@ -59,12 +59,12 @@
   },
   "homepage": "https://github.com/binden-js/compression#readme",
   "peerDependencies": {
-    "binden": "^1.1.1"
+    "binden": "^1.2.1"
   },
   "devDependencies": {
     "@binden/commitlint-config": "^1.0.2",
     "@binden/semantic-release-config": "^2.0.0",
-    "@binden/tsconfig": "^1.0.1",
+    "@binden/tsconfig": "^1.0.2",
     "@types/mocha": "^10.0.1",
     "c8": "^8.0.1",
     "eslint-config-binden-ts": "^2.0.0",
