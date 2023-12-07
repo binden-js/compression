@@ -1,3 +1,4 @@
+/* eslint-disable init-declarations */
 import { deepStrictEqual, ok } from "node:assert";
 import {
   brotliDecompress as brotliDecompressAsync,
@@ -58,7 +59,7 @@ const port = 8080;
 const url = new URL(`http://localhost:${port}`);
 
 class TestMiddleware extends Middleware {
-  #data: Buffer | string | undefined;
+  readonly #data: Buffer | string | undefined;
   public constructor(data?: Buffer | string) {
     super();
     this.#data = data;
