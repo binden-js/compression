@@ -43,8 +43,8 @@ export class Compression extends Middleware {
       format === "br"
         ? createBrotliCompress()
         : format === "deflate"
-        ? createDeflate()
-        : createGzip();
+          ? createDeflate()
+          : createGzip();
 
     compress.pipe(response);
 

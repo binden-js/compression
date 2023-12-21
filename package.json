@@ -59,7 +59,7 @@
   },
   "homepage": "https://github.com/binden-js/compression#readme",
   "peerDependencies": {
-    "binden": "^1.2.1"
+    "binden": "^1.2.4"
   },
   "devDependencies": {
     "@binden/commitlint-config": "^1.0.2",
@@ -69,12 +69,12 @@
     "c8": "^8.0.1",
     "eslint-config-binden-ts": "^2.0.0",
     "husky": "^8.0.3",
-    "lint-staged": "^15.1.0",
+    "lint-staged": "^15.2.0",
     "mocha": "^10.2.0",
-    "prettier": "^3.0.3",
-    "ts-node": "^10.9.1",
-    "typedoc": "^0.25.3",
-    "undici": "^5.28.2"
+    "prettier": "^3.1.1",
+    "ts-node": "^10.9.2",
+    "typedoc": "^0.25.4",
+    "undici": "^6.2.0"
   },
   "publishConfig": {
     "access": "public"
