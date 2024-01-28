@@ -6,35 +6,31 @@
   "type": "module",
   "types": "dist/index.d.ts",
   "engines": {
-    "node": ">=18.8.0",
-    "npm": ">=8.18.0"
+    "node": ">=20.11.0",
+    "npm": ">=10.2.4"
   },
   "scripts": {
     "build": "tsc",
     "build:remove": "rm -rf dist",
-    "ci:all": "npm ci && npm run prettier && npm run eslint && npm run commitlint && npm test && npm publish --dry-run && npm run coverage",
+    "ci:all": "npm ci && npm run prettier && npm run eslint && npm run commitlint && npm test && npm publish --dry-run && npm run docs:build && npm run coverage",
     "commitlint": "commitlint --verbose --from=$( git rev-list --max-parents=0 $( git rev-parse --abbrev-ref HEAD ) )",
     "coverage": "c8 npm test",
-    "coverage:js": "c8 npm run test:js",
     "docs:build": "typedoc",
     "eslint": "eslint --ext .ts ./",
     "eslint:fix": "npm run eslint -- --fix",
     "install:clean": "npm install",
     "postbuild": "prettier -c -w dist",
     "postcoverage": "c8 report --reporter=lcov",
-    "postcoverage:js": "c8 report --reporter=lcov",
     "postdocs:build": "prettier -c -w docs",
     "postpublish": "npm run build:remove",
     "prebuild": "npm run build:remove",
     "preinstall:clean": "rm -rf node_modules package-lock.json",
-    "prepare": "husky install",
+    "prepare": "husky",
     "prepublishOnly": "npm run build",
-    "pretest:js": "npm run build",
     "prettier": "prettier -c .",
     "prettier:write": "prettier -c -w .",
     "preversion": "npm run docs:build",
-    "test": "mocha",
-    "test:js": "mocha dist/test/**/*.test.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -59,16 +55,16 @@
   },
   "homepage": "https://github.com/binden-js/compression#readme",
   "peerDependencies": {
-    "binden": "^1.2.4"
+    "binden": "^1.2.5"
   },
   "devDependencies": {
-    "@binden/commitlint-config": "^1.0.2",
-    "@binden/semantic-release-config": "^2.0.0",
-    "@binden/tsconfig": "^1.0.2",
+    "@binden/commitlint-config": "^2.0.0",
+    "@binden/semantic-release-config": "^3.0.0",
+    "@binden/tsconfig": "^2.0.0",
     "@types/mocha": "^10.0.6",
     "c8": "^9.1.0",
-    "eslint-config-binden-ts": "^2.0.0",
-    "husky": "^8.0.3",
+    "eslint-config-binden-ts": "^3.0.0",
+    "husky": "^9.0.6",
     "lint-staged": "^15.2.0",
     "mocha": "^10.2.0",
     "prettier": "^3.2.4",
