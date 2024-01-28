@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.0.0](https://github.com/binden-js/compression/compare/v1.0.1...v2.0.0) (2024-01-28)
+
+### ⚠ BREAKING CHANGES
+
+- drop `Node.js` `<20.11.0` support
+
+### Performance Improvements
+
+- drop `Node.js` `<20.11.0` support ([7ac23f0](https://github.com/binden-js/compression/commit/7ac23f01ddce1e0489fc03f1c1b39cc4880e4473))
+
 ## [1.0.1](https://github.com/binden-js/compression/compare/v1.0.0...v1.0.1) (2023-08-22)
 
 ### Dependencies
