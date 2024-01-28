@@ -27,7 +27,7 @@
     "postpublish": "npm run build:remove",
     "prebuild": "npm run build:remove",
     "preinstall:clean": "rm -rf node_modules package-lock.json",
-    "prepare": "husky install",
+    "prepare": "husky",
     "prepublishOnly": "npm run build",
     "pretest:js": "npm run build",
     "prettier": "prettier -c .",
