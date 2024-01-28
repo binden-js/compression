@@ -6,13 +6,13 @@
   "type": "module",
   "types": "dist/index.d.ts",
   "engines": {
-    "node": ">=18.8.0",
-    "npm": ">=8.18.0"
+    "node": ">=20.11.0",
+    "npm": ">=10.2.4"
   },
   "scripts": {
     "build": "tsc",
     "build:remove": "rm -rf dist",
-    "ci:all": "npm ci && npm run prettier && npm run eslint && npm run commitlint && npm test && npm publish --dry-run && npm run coverage",
+    "ci:all": "npm ci && npm run prettier && npm run eslint && npm run commitlint && npm test && npm publish --dry-run && npm run docs:build && npm run coverage",
     "commitlint": "commitlint --verbose --from=$( git rev-list --max-parents=0 $( git rev-parse --abbrev-ref HEAD ) )",
     "coverage": "c8 npm test",
     "docs:build": "typedoc",
