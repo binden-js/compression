@@ -55,7 +55,7 @@
   },
   "homepage": "https://github.com/binden-js/compression#readme",
   "peerDependencies": {
-    "binden": "^1.2.5"
+    "binden": "^2.0.2"
   },
   "devDependencies": {
     "@binden/commitlint-config": "^2.1.0",
