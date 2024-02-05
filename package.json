@@ -67,7 +67,7 @@
     "husky": "^9.0.10",
     "lint-staged": "^15.2.1",
     "mocha": "^10.2.0",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typedoc": "^0.25.7",
     "undici": "^6.6.0"
