@@ -65,7 +65,7 @@
     "c8": "^9.1.0",
     "eslint-config-binden-ts": "^3.0.0",
     "husky": "^9.0.10",
-    "lint-staged": "^15.2.1",
+    "lint-staged": "^15.2.2",
     "mocha": "^10.2.0",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
