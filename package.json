@@ -70,7 +70,7 @@
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typedoc": "^0.25.12",
-    "undici": "^6.8.0"
+    "undici": "^6.11.1"
   },
   "publishConfig": {
     "access": "public"
