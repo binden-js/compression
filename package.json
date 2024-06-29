@@ -30,7 +30,7 @@
     "prettier": "prettier -c .",
     "prettier:write": "prettier -c -w .",
     "preversion": "npm run docs:build",
-    "test": "node --loader ts-node/esm --test test/**/*.test.ts"
+    "test": "node --loader ts-node/esm --test test/*.test.ts"
   },
   "repository": {
     "type": "git",
