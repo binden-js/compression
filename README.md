@@ -19,5 +19,11 @@ app.use(Compression);
 ### Test
 
 ```bash
-npm run test:ts
+npm test
+```
+
+### Coverage
+
+```bash
+npm run coverage
 ```
