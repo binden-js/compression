@@ -16,7 +16,7 @@
     "commitlint": "commitlint --verbose --from=$( git rev-list --max-parents=0 $( git rev-parse --abbrev-ref HEAD ) )",
     "coverage": "c8 npm test",
     "docs:build": "typedoc",
-    "eslint": "eslint --ext .ts ./",
+    "eslint": "eslint **/*.ts",
     "eslint:fix": "npm run eslint -- --fix",
     "install:clean": "npm install",
     "postbuild": "prettier -c -w dist",
