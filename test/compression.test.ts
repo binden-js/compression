@@ -1,21 +1,16 @@
-/* eslint-disable init-declarations */
+/* eslint-disable init-declarations, @typescript-eslint/no-floating-promises*/
 import { deepStrictEqual, ok } from "node:assert";
 import {
   brotliDecompress as brotliDecompressAsync,
   gunzip as gunzipAsync,
   inflate as inflateAsync,
   InputType,
-} from "zlib";
+} from "node:zlib";
+import { afterEach, beforeEach, describe, it } from "node:test";
 import { Binden, Middleware, Context } from "binden";
-import type { Server } from "node:http";
+import { request } from "undici";
 
-import {
-  getGlobalDispatcher,
-  request,
-  setGlobalDispatcher,
-  Agent,
-  Dispatcher,
-} from "undici";
+import type { Server } from "node:http";
 
 import { Compression, DefaultCompression, IComressFormats } from "../index.js";
 
@@ -70,23 +65,18 @@ class TestMiddleware extends Middleware {
   }
 }
 
-suite("Compression", () => {
+describe("Compression", () => {
   let app: Binden;
   let server: Server;
-  let original_agent: Dispatcher;
 
-  suiteSetup(() => {
-    original_agent = getGlobalDispatcher();
-    const agent = new Agent({ keepAliveTimeout: 1, keepAliveMaxTimeout: 1 });
-    setGlobalDispatcher(agent);
+  beforeEach(async () => {
+    await new Promise<void>((resolve) => {
+      app = new Binden();
+      server = app.createServer().listen(port, resolve);
+    });
   });
 
-  setup((done) => {
-    app = new Binden();
-    server = app.createServer().listen(port, done);
-  });
-
-  test("constructor (with default options)", async () => {
+  it("constructor (with default options)", async () => {
     const expected = "Hello World";
     const format = "deflate";
     app.use(new Compression(), new TestMiddleware(expected));
@@ -103,7 +93,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("auto (x-gzip)", async () => {
+  it("auto (x-gzip)", async () => {
     const expected = "Hello World";
     app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
 
@@ -119,7 +109,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("auto (gzip)", async () => {
+  it("auto (gzip)", async () => {
     const expected = "Hello World";
     const format = "gzip";
     app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
@@ -136,7 +126,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("auto (br)", async () => {
+  it("auto (br)", async () => {
     const expected = "Hello World";
     const format = "br";
     app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
@@ -153,7 +143,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("auto (identity)", async () => {
+  it("auto (identity)", async () => {
     const expected = "Hello World";
     const format = "* ;q= 0.6, identity ;q= 0.7";
     app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
@@ -170,7 +160,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("auto (*)", async () => {
+  it("auto (*)", async () => {
     const expected = "Hello World";
     const format = "* ;q= 0.8, identity ;q= 0.7";
     app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
@@ -187,7 +177,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("auto (Default compression when no `Accept-Encoding` header is present)", async () => {
+  it("auto (Default compression when no `Accept-Encoding` header is present)", async () => {
     const expected = "Hello World";
     app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
 
@@ -203,7 +193,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("auto (unsupported)", async () => {
+  it("auto (unsupported)", async () => {
     const expected = "Hello World";
     const format = "compress";
     app.use(new Compression({ format: "auto" }), new TestMiddleware(expected));
@@ -220,7 +210,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("gzip", async () => {
+  it("gzip", async () => {
     const expected = "Hello World";
     const format = "gzip";
     app.use(new Compression({ format }), new TestMiddleware(expected));
@@ -236,7 +226,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("br", async () => {
+  it("br", async () => {
     const expected = "Hello World";
     const format = "br";
     app.use(new Compression({ format }), new TestMiddleware(expected));
@@ -252,7 +242,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("deflate", async () => {
+  it("deflate", async () => {
     const expected = "Hello World";
     const format = "deflate";
     app.use(new Compression({ format }), new TestMiddleware(expected));
@@ -268,7 +258,7 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  test("Multiple compressions", async () => {
+  it("Multiple compressions", async () => {
     const expected = "Hello World";
     const formats: readonly IComressFormats[] = ["gzip", "br", "deflate"];
     app.use(
@@ -292,9 +282,18 @@ suite("Compression", () => {
     deepStrictEqual(actual, expected);
   });
 
-  teardown((done) => server.close(done));
-
-  suiteTeardown(() => {
-    setGlobalDispatcher(original_agent);
+  afterEach(async () => {
+    await new Promise<void>((resolve, reject) => {
+      server.closeIdleConnections();
+      setTimeout(() => {
+        server.close((error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+      }, 5);
+    });
   });
 });
