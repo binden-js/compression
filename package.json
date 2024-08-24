@@ -68,7 +68,7 @@
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typedoc": "^0.26.3",
-    "undici": "^6.19.2"
+    "undici": "^6.19.8"
   },
   "publishConfig": {
     "access": "public"
