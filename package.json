@@ -65,7 +65,7 @@
     "eslint-config-binden-ts": "^4.0.2",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.10",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.1",
     "ts-node": "^10.9.2",
     "typedoc": "^0.26.3",
     "undici": "^6.19.8"
