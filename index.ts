@@ -1,5 +1,5 @@
-import { createDeflate, createGzip, createBrotliCompress } from "node:zlib";
-import { Middleware, IMiddlewareParams, Context } from "binden";
+import { Context, type IMiddlewareParams, Middleware } from "binden";
+import { createBrotliCompress, createDeflate, createGzip } from "node:zlib";
 
 export const DefaultCompression = "br";
 
@@ -52,16 +52,16 @@ export class Compression extends Middleware {
       get(_r, p: string): unknown {
         if (p === "write") {
           return function write(
-            data?: unknown,
-            encoding?: BufferEncoding,
+            data: unknown,
+            encoding: BufferEncoding,
             cb?: (error?: Error | null) => void,
           ): void {
             compress.write(data, encoding, cb);
           };
         } else if (p === "end") {
           return function end(
-            data?: unknown,
-            encoding?: BufferEncoding,
+            data: unknown,
+            encoding: BufferEncoding,
             cb?: () => void,
           ): void {
             compress.end(data, encoding, cb);
@@ -103,6 +103,7 @@ export class Compression extends Middleware {
     }
 
     for (const { encoding } of accept_encoding) {
+      /* eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check */
       switch (encoding) {
         case "*":
           return DefaultCompression;
