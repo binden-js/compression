@@ -1,18 +1,22 @@
-/* eslint-disable init-declarations, @typescript-eslint/no-floating-promises*/
+/* eslint-disable init-declarations, @typescript-eslint/no-floating-promises, sort-imports */
 import { deepStrictEqual, ok } from "node:assert";
+import type { Server } from "node:http";
+import { afterEach, beforeEach, describe, it } from "node:test";
 import {
+  type InputType,
   brotliDecompress as brotliDecompressAsync,
   gunzip as gunzipAsync,
   inflate as inflateAsync,
-  InputType,
 } from "node:zlib";
-import { afterEach, beforeEach, describe, it } from "node:test";
-import { Binden, Middleware, Context } from "binden";
+
+import { Binden, Context, Middleware } from "binden";
 import { request } from "undici";
 
-import type { Server } from "node:http";
-
-import { Compression, DefaultCompression, IComressFormats } from "../index.js";
+import {
+  Compression,
+  DefaultCompression,
+  type IComressFormats,
+} from "../index.js";
 
 function brotliDecompress(data: InputType): Promise<Buffer> {
   return new Promise<Buffer>((resolve, reject) => {

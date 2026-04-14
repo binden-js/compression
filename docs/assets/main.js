@@ -8,7 +8,8 @@
   var _e = Object.getPrototypeOf,
     Re = Object.prototype.hasOwnProperty;
   var Me = (t, e) => () => (
-    e || t((e = { exports: {} }).exports, e), e.exports
+    e || t((e = { exports: {} }).exports, e),
+    e.exports
   );
   var Fe = (t, e, n, r) => {
     if ((e && typeof e == "object") || typeof e == "function")
@@ -42,7 +43,7 @@
         );
       };
       t.version = "2.3.9";
-      (t.utils = {}),
+      ((t.utils = {}),
         (t.utils.warn = (function (e) {
           return function (n) {
             e.console && console.warn && console.warn(n);
@@ -79,7 +80,7 @@
           return n;
         }),
         (t.FieldRef = function (e, n, r) {
-          (this.docRef = e), (this.fieldName = n), (this._stringValue = r);
+          ((this.docRef = e), (this.fieldName = n), (this._stringValue = r));
         }),
         (t.FieldRef.joiner = "/"),
         (t.FieldRef.fromString = function (e) {
@@ -96,8 +97,8 @@
                 this.fieldName + t.FieldRef.joiner + this.docRef),
             this._stringValue
           );
-        });
-      (t.Set = function (e) {
+        }));
+      ((t.Set = function (e) {
         if (((this.elements = Object.create(null)), e)) {
           this.length = e.length;
           for (var n = 0; n < this.length; n++) this.elements[e[n]] = !0;
@@ -135,10 +136,10 @@
             s = [];
           if (e === t.Set.complete) return this;
           if (e === t.Set.empty) return e;
-          this.length < e.length
+          (this.length < e.length
             ? ((n = this), (r = e))
             : ((n = e), (r = this)),
-            (i = Object.keys(n.elements));
+            (i = Object.keys(n.elements)));
           for (var o = 0; o < i.length; o++) {
             var a = i[o];
             a in r.elements && s.push(a);
@@ -161,13 +162,13 @@
           return Math.log(1 + Math.abs(s));
         }),
         (t.Token = function (e, n) {
-          (this.str = e || ""), (this.metadata = n || {});
+          ((this.str = e || ""), (this.metadata = n || {}));
         }),
         (t.Token.prototype.toString = function () {
           return this.str;
         }),
         (t.Token.prototype.update = function (e) {
-          return (this.str = e(this.str, this.metadata)), this;
+          return ((this.str = e(this.str, this.metadata)), this);
         }),
         (t.Token.prototype.clone = function (e) {
           return (
@@ -178,8 +179,8 @@
               }),
             new t.Token(e(this.str, this.metadata), this.metadata)
           );
-        });
-      (t.tokenizer = function (e, n) {
+        }));
+      ((t.tokenizer = function (e, n) {
         if (e == null || e == null) return [];
         if (Array.isArray(e))
           return e.map(function (v) {
@@ -202,25 +203,25 @@
           if (l.match(t.tokenizer.separator) || o == i) {
             if (u > 0) {
               var d = t.utils.clone(n) || {};
-              (d.position = [a, u]),
+              ((d.position = [a, u]),
                 (d.index = s.length),
-                s.push(new t.Token(r.slice(a, o), d));
+                s.push(new t.Token(r.slice(a, o), d)));
             }
             a = o + 1;
           }
         }
         return s;
       }),
-        (t.tokenizer.separator = /[\s\-]+/);
-      (t.Pipeline = function () {
+        (t.tokenizer.separator = /[\s\-]+/));
+      ((t.Pipeline = function () {
         this._stack = [];
       }),
         (t.Pipeline.registeredFunctions = Object.create(null)),
         (t.Pipeline.registerFunction = function (e, n) {
-          n in this.registeredFunctions &&
+          (n in this.registeredFunctions &&
             t.utils.warn("Overwriting existing registered function: " + n),
             (e.label = n),
-            (t.Pipeline.registeredFunctions[e.label] = e);
+            (t.Pipeline.registeredFunctions[e.label] = e));
         }),
         (t.Pipeline.warnIfFunctionNotRegistered = function (e) {
           var n = e.label && e.label in this.registeredFunctions;
@@ -245,14 +246,14 @@
         (t.Pipeline.prototype.add = function () {
           var e = Array.prototype.slice.call(arguments);
           e.forEach(function (n) {
-            t.Pipeline.warnIfFunctionNotRegistered(n), this._stack.push(n);
+            (t.Pipeline.warnIfFunctionNotRegistered(n), this._stack.push(n));
           }, this);
         }),
         (t.Pipeline.prototype.after = function (e, n) {
           t.Pipeline.warnIfFunctionNotRegistered(n);
           var r = this._stack.indexOf(e);
           if (r == -1) throw new Error("Cannot find existingFn");
-          (r = r + 1), this._stack.splice(r, 0, n);
+          ((r = r + 1), this._stack.splice(r, 0, n));
         }),
         (t.Pipeline.prototype.before = function (e, n) {
           t.Pipeline.warnIfFunctionNotRegistered(n);
@@ -288,11 +289,11 @@
         }),
         (t.Pipeline.prototype.toJSON = function () {
           return this._stack.map(function (e) {
-            return t.Pipeline.warnIfFunctionNotRegistered(e), e.label;
+            return (t.Pipeline.warnIfFunctionNotRegistered(e), e.label);
           });
-        });
-      (t.Vector = function (e) {
-        (this._magnitude = 0), (this.elements = e || []);
+        }));
+      ((t.Vector = function (e) {
+        ((this._magnitude = 0), (this.elements = e || []));
       }),
         (t.Vector.prototype.positionForIndex = function (e) {
           if (this.elements.length == 0) return 0;
@@ -303,11 +304,10 @@
               s = Math.floor(i / 2),
               o = this.elements[s * 2];
             i > 1 && (o < e && (n = s), o > e && (r = s), o != e);
-
           )
-            (i = r - n),
+            ((i = r - n),
               (s = n + Math.floor(i / 2)),
-              (o = this.elements[s * 2]);
+              (o = this.elements[s * 2]));
           if (o == e || o > e) return s * 2;
           if (o < e) return (s + 1) * 2;
         }),
@@ -343,15 +343,14 @@
               u = 0,
               d = 0;
             u < s && d < o;
-
           )
-            (a = r[u]),
+            ((a = r[u]),
               (l = i[d]),
               a < l
                 ? (u += 2)
                 : a > l
                   ? (d += 2)
-                  : a == l && ((n += r[u + 1] * i[d + 1]), (u += 2), (d += 2));
+                  : a == l && ((n += r[u + 1] * i[d + 1]), (u += 2), (d += 2)));
           return n;
         }),
         (t.Vector.prototype.similarity = function (e) {
@@ -368,8 +367,8 @@
         }),
         (t.Vector.prototype.toJSON = function () {
           return this.elements;
-        });
-      (t.stemmer = (function () {
+        }));
+      ((t.stemmer = (function () {
         var e = {
             ational: "ate",
             tional: "tion",
@@ -448,10 +447,10 @@
               h.test(c))
             ) {
               var E = h.exec(c);
-              (h = v), h.test(E[1]) && ((h = w), (c = c.replace(h, "")));
+              ((h = v), h.test(E[1]) && ((h = w), (c = c.replace(h, ""))));
             } else if (x.test(c)) {
               var E = x.exec(c);
-              (y = E[1]),
+              ((y = E[1]),
                 (x = g),
                 x.test(y) &&
                   ((c = y),
@@ -462,34 +461,34 @@
                     ? (c = c + "e")
                     : O.test(c)
                       ? ((h = w), (c = c.replace(h, "")))
-                      : M.test(c) && (c = c + "e"));
+                      : M.test(c) && (c = c + "e")));
             }
             if (((h = A), h.test(c))) {
               var E = h.exec(c);
-              (y = E[1]), (c = y + "i");
+              ((y = E[1]), (c = y + "i"));
             }
             if (((h = j), h.test(c))) {
               var E = h.exec(c);
-              (y = E[1]), (I = E[2]), (h = v), h.test(y) && (c = y + e[I]);
+              ((y = E[1]), (I = E[2]), (h = v), h.test(y) && (c = y + e[I]));
             }
             if (((h = $), h.test(c))) {
               var E = h.exec(c);
-              (y = E[1]), (I = E[2]), (h = v), h.test(y) && (c = y + n[I]);
+              ((y = E[1]), (I = E[2]), (h = v), h.test(y) && (c = y + n[I]));
             }
             if (((h = N), (x = q), h.test(c))) {
               var E = h.exec(c);
-              (y = E[1]), (h = f), h.test(y) && (c = y);
+              ((y = E[1]), (h = f), h.test(y) && (c = y));
             } else if (x.test(c)) {
               var E = x.exec(c);
-              (y = E[1] + E[2]), (x = f), x.test(y) && (c = y);
+              ((y = E[1] + E[2]), (x = f), x.test(y) && (c = y));
             }
             if (((h = P), h.test(c))) {
               var E = h.exec(c);
-              (y = E[1]),
+              ((y = E[1]),
                 (h = f),
                 (x = b),
                 (O = W),
-                (h.test(y) || (x.test(y) && !O.test(y))) && (c = y);
+                (h.test(y) || (x.test(y) && !O.test(y))) && (c = y));
             }
             return (
               (h = z),
@@ -503,10 +502,10 @@
           return R.update(V);
         };
       })()),
-        t.Pipeline.registerFunction(t.stemmer, "stemmer");
-      (t.generateStopWordFilter = function (e) {
+        t.Pipeline.registerFunction(t.stemmer, "stemmer"));
+      ((t.generateStopWordFilter = function (e) {
         var n = e.reduce(function (r, i) {
-          return (r[i] = i), r;
+          return ((r[i] = i), r);
         }, {});
         return function (r) {
           if (r && n[r.toString()] !== r.toString()) return r;
@@ -633,18 +632,18 @@
           "you",
           "your",
         ])),
-        t.Pipeline.registerFunction(t.stopWordFilter, "stopWordFilter");
-      (t.trimmer = function (e) {
+        t.Pipeline.registerFunction(t.stopWordFilter, "stopWordFilter"));
+      ((t.trimmer = function (e) {
         return e.update(function (n) {
           return n.replace(/^\W+/, "").replace(/\W+$/, "");
         });
       }),
-        t.Pipeline.registerFunction(t.trimmer, "trimmer");
-      (t.TokenSet = function () {
-        (this.final = !1),
+        t.Pipeline.registerFunction(t.trimmer, "trimmer"));
+      ((t.TokenSet = function () {
+        ((this.final = !1),
           (this.edges = {}),
           (this.id = t.TokenSet._nextId),
-          (t.TokenSet._nextId += 1);
+          (t.TokenSet._nextId += 1));
       }),
         (t.TokenSet._nextId = 1),
         (t.TokenSet.fromArray = function (e) {
@@ -654,7 +653,7 @@
             r++
           )
             n.insert(e[r]);
-          return n.finish(), n.root;
+          return (n.finish(), n.root);
         }),
         (t.TokenSet.fromClause = function (e) {
           return "editDistance" in e
@@ -666,13 +665,12 @@
             var r = new t.TokenSet(),
               i = [{ node: r, editsRemaining: n, str: e }];
             i.length;
-
           ) {
             var s = i.pop();
             if (s.str.length > 0) {
               var o = s.str.charAt(0),
                 a;
-              o in s.node.edges
+              (o in s.node.edges
                 ? (a = s.node.edges[o])
                 : ((a = new t.TokenSet()), (s.node.edges[o] = a)),
                 s.str.length == 1 && (a.final = !0),
@@ -680,7 +678,7 @@
                   node: a,
                   editsRemaining: s.editsRemaining,
                   str: s.str.slice(1),
-                });
+                }));
             }
             if (s.editsRemaining != 0) {
               if ("*" in s.node.edges) var l = s.node.edges["*"];
@@ -709,18 +707,18 @@
                   var u = new t.TokenSet();
                   s.node.edges["*"] = u;
                 }
-                s.str.length == 1 && (u.final = !0),
+                (s.str.length == 1 && (u.final = !0),
                   i.push({
                     node: u,
                     editsRemaining: s.editsRemaining - 1,
                     str: s.str.slice(1),
-                  });
+                  }));
               }
               if (s.str.length > 1) {
                 var d = s.str.charAt(0),
                   v = s.str.charAt(1),
                   f;
-                v in s.node.edges
+                (v in s.node.edges
                   ? (f = s.node.edges[v])
                   : ((f = new t.TokenSet()), (s.node.edges[v] = f)),
                   s.str.length == 1 && (f.final = !0),
@@ -728,7 +726,7 @@
                     node: f,
                     editsRemaining: s.editsRemaining - 1,
                     str: d + s.str.slice(2),
-                  });
+                  }));
               }
             }
           }
@@ -742,10 +740,10 @@
           ) {
             var o = e[i],
               a = i == s - 1;
-            if (o == "*") (n.edges[o] = n), (n.final = a);
+            if (o == "*") ((n.edges[o] = n), (n.final = a));
             else {
               var l = new t.TokenSet();
-              (l.final = a), (n.edges[o] = l), (n = l);
+              ((l.final = a), (n.edges[o] = l), (n = l));
             }
           }
           return r;
@@ -785,7 +783,6 @@
               r = void 0,
               i = [{ qNode: e, output: n, node: this }];
             i.length;
-
           ) {
             r = i.pop();
             for (
@@ -804,22 +801,22 @@
                     g = r.qNode.edges[d],
                     L = b.final && g.final,
                     p = void 0;
-                  f in r.output.edges
+                  (f in r.output.edges
                     ? ((p = r.output.edges[f]), (p.final = p.final || L))
                     : ((p = new t.TokenSet()),
                       (p.final = L),
                       (r.output.edges[f] = p)),
-                    i.push({ qNode: g, output: p, node: b });
+                    i.push({ qNode: g, output: p, node: b }));
                 }
               }
           }
           return n;
         }),
         (t.TokenSet.Builder = function () {
-          (this.previousWord = ""),
+          ((this.previousWord = ""),
             (this.root = new t.TokenSet()),
             (this.uncheckedNodes = []),
-            (this.minimizedNodes = {});
+            (this.minimizedNodes = {}));
         }),
         (t.TokenSet.Builder.prototype.insert = function (e) {
           var n,
@@ -834,18 +831,19 @@
             i++
           )
             r++;
-          this.minimize(r),
+          (this.minimize(r),
             this.uncheckedNodes.length == 0
               ? (n = this.root)
-              : (n = this.uncheckedNodes[this.uncheckedNodes.length - 1].child);
+              : (n =
+                  this.uncheckedNodes[this.uncheckedNodes.length - 1].child));
           for (var i = r; i < e.length; i++) {
             var s = new t.TokenSet(),
               o = e[i];
-            (n.edges[o] = s),
+            ((n.edges[o] = s),
               this.uncheckedNodes.push({ parent: n, char: o, child: s }),
-              (n = s);
+              (n = s));
           }
-          (n.final = !0), (this.previousWord = e);
+          ((n.final = !0), (this.previousWord = e));
         }),
         (t.TokenSet.Builder.prototype.finish = function () {
           this.minimize(0);
@@ -854,18 +852,18 @@
           for (var n = this.uncheckedNodes.length - 1; n >= e; n--) {
             var r = this.uncheckedNodes[n],
               i = r.child.toString();
-            i in this.minimizedNodes
+            (i in this.minimizedNodes
               ? (r.parent.edges[r.char] = this.minimizedNodes[i])
               : ((r.child._str = i), (this.minimizedNodes[i] = r.child)),
-              this.uncheckedNodes.pop();
+              this.uncheckedNodes.pop());
           }
-        });
-      (t.Index = function (e) {
-        (this.invertedIndex = e.invertedIndex),
+        }));
+      ((t.Index = function (e) {
+        ((this.invertedIndex = e.invertedIndex),
           (this.fieldVectors = e.fieldVectors),
           (this.tokenSet = e.tokenSet),
           (this.fields = e.fields),
-          (this.pipeline = e.pipeline);
+          (this.pipeline = e.pipeline));
       }),
         (t.Index.prototype.search = function (e) {
           return this.query(function (n) {
@@ -923,8 +921,8 @@
                       o[m] === void 0 && (o[m] = t.Set.complete)),
                     u.presence == t.Query.presence.PROHIBITED)
                   ) {
-                    a[m] === void 0 && (a[m] = t.Set.empty),
-                      (a[m] = a[m].union($));
+                    (a[m] === void 0 && (a[m] = t.Set.empty),
+                      (a[m] = a[m].union($)));
                     continue;
                   }
                   if (
@@ -958,7 +956,7 @@
             l++
           ) {
             var m = this.fields[l];
-            o[m] && (V = V.intersect(o[m])), a[m] && (R = R.union(a[m]));
+            (o[m] && (V = V.intersect(o[m])), a[m] && (R = R.union(a[m])));
           }
           var c = Object.keys(r),
             y = [],
@@ -979,10 +977,10 @@
                 O = i[T.fieldName].similarity(x),
                 M;
               if ((M = I[h]) !== void 0)
-                (M.score += O), M.matchData.combine(r[T]);
+                ((M.score += O), M.matchData.combine(r[T]));
               else {
                 var E = { ref: h, score: O, matchData: r[T] };
-                (I[h] = E), y.push(E);
+                ((I[h] = E), y.push(E));
               }
             }
           }
@@ -1033,7 +1031,7 @@
             var d = o[u],
               b = d[0],
               g = d[1];
-            a.insert(b), (s[b] = g);
+            (a.insert(b), (s[b] = g));
           }
           return (
             a.finish(),
@@ -1044,9 +1042,9 @@
             (n.pipeline = l),
             new t.Index(n)
           );
-        });
-      (t.Builder = function () {
-        (this._ref = "id"),
+        }));
+      ((t.Builder = function () {
+        ((this._ref = "id"),
           (this._fields = Object.create(null)),
           (this._documents = Object.create(null)),
           (this.invertedIndex = Object.create(null)),
@@ -1059,7 +1057,7 @@
           (this._b = 0.75),
           (this._k1 = 1.2),
           (this.termIndex = 0),
-          (this.metadataWhitelist = []);
+          (this.metadataWhitelist = []));
       }),
         (t.Builder.prototype.ref = function (e) {
           this._ref = e;
@@ -1080,7 +1078,7 @@
         (t.Builder.prototype.add = function (e, n) {
           var r = e[this._ref],
             i = Object.keys(this._fields);
-          (this._documents[r] = n || {}), (this.documentCount += 1);
+          ((this._documents[r] = n || {}), (this.documentCount += 1));
           for (var s = 0; s < i.length; s++) {
             var o = i[s],
               a = this._fields[o].extractor,
@@ -1089,9 +1087,9 @@
               d = this.pipeline.run(u),
               v = new t.FieldRef(r, o),
               f = Object.create(null);
-            (this.fieldTermFrequencies[v] = f),
+            ((this.fieldTermFrequencies[v] = f),
               (this.fieldLengths[v] = 0),
-              (this.fieldLengths[v] += d.length);
+              (this.fieldLengths[v] += d.length));
             for (var b = 0; b < d.length; b++) {
               var g = d[b];
               if (
@@ -1100,7 +1098,7 @@
                 this.invertedIndex[g] == null)
               ) {
                 var L = Object.create(null);
-                (L._index = this.termIndex), (this.termIndex += 1);
+                ((L._index = this.termIndex), (this.termIndex += 1));
                 for (var p = 0; p < i.length; p++)
                   L[i[p]] = Object.create(null);
                 this.invertedIndex[g] = L;
@@ -1110,9 +1108,9 @@
               for (var m = 0; m < this.metadataWhitelist.length; m++) {
                 var S = this.metadataWhitelist[m],
                   w = g.metadata[S];
-                this.invertedIndex[g][o][r][S] == null &&
+                (this.invertedIndex[g][o][r][S] == null &&
                   (this.invertedIndex[g][o][r][S] = []),
-                  this.invertedIndex[g][o][r][S].push(w);
+                  this.invertedIndex[g][o][r][S].push(w));
               }
             }
           }
@@ -1129,10 +1127,10 @@
           ) {
             var o = t.FieldRef.fromString(e[s]),
               a = o.fieldName;
-            i[a] || (i[a] = 0),
+            (i[a] || (i[a] = 0),
               (i[a] += 1),
               r[a] || (r[a] = 0),
-              (r[a] += this.fieldLengths[o]);
+              (r[a] += this.fieldLengths[o]));
           }
           for (var l = Object.keys(this._fields), s = 0; s < l.length; s++) {
             var u = l[s];
@@ -1170,7 +1168,7 @@
                 w,
                 k,
                 _;
-              i[p] === void 0
+              (i[p] === void 0
                 ? ((w = t.idf(this.invertedIndex[p], this.documentCount)),
                   (i[p] = w))
                 : (w = i[p]),
@@ -1182,7 +1180,7 @@
                 (k *= b),
                 (k *= g),
                 (_ = Math.round(k * 1e3) / 1e3),
-                u.insert(S, _);
+                u.insert(S, _));
             }
             e[o] = u;
           }
@@ -1209,7 +1207,7 @@
         }),
         (t.Builder.prototype.use = function (e) {
           var n = Array.prototype.slice.call(arguments, 1);
-          n.unshift(this), e.apply(this, n);
+          (n.unshift(this), e.apply(this, n));
         }),
         (t.MatchData = function (e, n, r) {
           for (
@@ -1220,10 +1218,10 @@
             var a = s[o];
             i[a] = r[a].slice();
           }
-          (this.metadata = Object.create(null)),
+          ((this.metadata = Object.create(null)),
             e !== void 0 &&
               ((this.metadata[e] = Object.create(null)),
-              (this.metadata[e][n] = i));
+              (this.metadata[e][n] = i)));
         }),
         (t.MatchData.prototype.combine = function (e) {
           for (var n = Object.keys(e.metadata), r = 0; r < n.length; r++) {
@@ -1249,7 +1247,8 @@
         }),
         (t.MatchData.prototype.add = function (e, n, r) {
           if (!(e in this.metadata)) {
-            (this.metadata[e] = Object.create(null)), (this.metadata[e][n] = r);
+            ((this.metadata[e] = Object.create(null)),
+              (this.metadata[e][n] = r));
             return;
           }
           if (!(n in this.metadata[e])) {
@@ -1264,7 +1263,7 @@
           }
         }),
         (t.Query = function (e) {
-          (this.clauses = []), (this.allFields = e);
+          ((this.clauses = []), (this.allFields = e));
         }),
         (t.Query.wildcard = new String("*")),
         (t.Query.wildcard.NONE = 0),
@@ -1303,22 +1302,22 @@
               this
             );
           var r = n || {};
-          return (r.term = e.toString()), this.clause(r), this;
+          return ((r.term = e.toString()), this.clause(r), this);
         }),
         (t.QueryParseError = function (e, n, r) {
-          (this.name = "QueryParseError"),
+          ((this.name = "QueryParseError"),
             (this.message = e),
             (this.start = n),
-            (this.end = r);
+            (this.end = r));
         }),
         (t.QueryParseError.prototype = new Error()),
         (t.QueryLexer = function (e) {
-          (this.lexemes = []),
+          ((this.lexemes = []),
             (this.str = e),
             (this.length = e.length),
             (this.pos = 0),
             (this.start = 0),
-            (this.escapeCharPositions = []);
+            (this.escapeCharPositions = []));
         }),
         (t.QueryLexer.prototype.run = function () {
           for (var e = t.QueryLexer.lexText; e; ) e = e(this);
@@ -1329,9 +1328,9 @@
             i < this.escapeCharPositions.length;
             i++
           )
-            (r = this.escapeCharPositions[i]),
+            ((r = this.escapeCharPositions[i]),
               e.push(this.str.slice(n, r)),
-              (n = r + 1);
+              (n = r + 1));
           return (
             e.push(this.str.slice(n, this.pos)),
             (this.escapeCharPositions.length = 0),
@@ -1339,34 +1338,34 @@
           );
         }),
         (t.QueryLexer.prototype.emit = function (e) {
-          this.lexemes.push({
+          (this.lexemes.push({
             type: e,
             str: this.sliceString(),
             start: this.start,
             end: this.pos,
           }),
-            (this.start = this.pos);
+            (this.start = this.pos));
         }),
         (t.QueryLexer.prototype.escapeCharacter = function () {
-          this.escapeCharPositions.push(this.pos - 1), (this.pos += 1);
+          (this.escapeCharPositions.push(this.pos - 1), (this.pos += 1));
         }),
         (t.QueryLexer.prototype.next = function () {
           if (this.pos >= this.length) return t.QueryLexer.EOS;
           var e = this.str.charAt(this.pos);
-          return (this.pos += 1), e;
+          return ((this.pos += 1), e);
         }),
         (t.QueryLexer.prototype.width = function () {
           return this.pos - this.start;
         }),
         (t.QueryLexer.prototype.ignore = function () {
-          this.start == this.pos && (this.pos += 1), (this.start = this.pos);
+          (this.start == this.pos && (this.pos += 1), (this.start = this.pos));
         }),
         (t.QueryLexer.prototype.backup = function () {
           this.pos -= 1;
         }),
         (t.QueryLexer.prototype.acceptDigitRun = function () {
           var e, n;
-          do (e = this.next()), (n = e.charCodeAt(0));
+          do ((e = this.next()), (n = e.charCodeAt(0)));
           while (n > 47 && n < 58);
           e != t.QueryLexer.EOS && this.backup();
         }),
@@ -1437,19 +1436,19 @@
                 t.QueryLexer.lexBoost
               );
             if ((n == "+" && e.width() === 1) || (n == "-" && e.width() === 1))
-              return e.emit(t.QueryLexer.PRESENCE), t.QueryLexer.lexText;
+              return (e.emit(t.QueryLexer.PRESENCE), t.QueryLexer.lexText);
             if (n.match(t.QueryLexer.termSeparator))
               return t.QueryLexer.lexTerm;
           }
         }),
         (t.QueryParser = function (e, n) {
-          (this.lexer = new t.QueryLexer(e)),
+          ((this.lexer = new t.QueryLexer(e)),
             (this.query = n),
             (this.currentClause = {}),
-            (this.lexemeIdx = 0);
+            (this.lexemeIdx = 0));
         }),
         (t.QueryParser.prototype.parse = function () {
-          this.lexer.run(), (this.lexemes = this.lexer.lexemes);
+          (this.lexer.run(), (this.lexemes = this.lexer.lexemes));
           for (var e = t.QueryParser.parseClause; e; ) e = e(this);
           return this.query;
         }),
@@ -1458,11 +1457,11 @@
         }),
         (t.QueryParser.prototype.consumeLexeme = function () {
           var e = this.peekLexeme();
-          return (this.lexemeIdx += 1), e;
+          return ((this.lexemeIdx += 1), e);
         }),
         (t.QueryParser.prototype.nextClause = function () {
           var e = this.currentClause;
-          this.query.clause(e), (this.currentClause = {});
+          (this.query.clause(e), (this.currentClause = {}));
         }),
         (t.QueryParser.parseClause = function (e) {
           var n = e.peekLexeme();
@@ -1477,8 +1476,8 @@
               default:
                 var r = "expected either a field or a term, found " + n.type;
                 throw (
-                  (n.str.length >= 1 && (r += " with value '" + n.str + "'"),
-                  new t.QueryParseError(r, n.start, n.end))
+                  n.str.length >= 1 && (r += " with value '" + n.str + "'"),
+                  new t.QueryParseError(r, n.start, n.end)
                 );
             }
         }),
@@ -1542,8 +1541,8 @@
         (t.QueryParser.parseTerm = function (e) {
           var n = e.consumeLexeme();
           if (n != null) {
-            (e.currentClause.term = n.str.toLowerCase()),
-              n.str.indexOf("*") != -1 && (e.currentClause.usePipeline = !1);
+            ((e.currentClause.term = n.str.toLowerCase()),
+              n.str.indexOf("*") != -1 && (e.currentClause.usePipeline = !1));
             var r = e.peekLexeme();
             if (r == null) {
               e.nextClause();
@@ -1551,15 +1550,15 @@
             }
             switch (r.type) {
               case t.QueryLexer.TERM:
-                return e.nextClause(), t.QueryParser.parseTerm;
+                return (e.nextClause(), t.QueryParser.parseTerm);
               case t.QueryLexer.FIELD:
-                return e.nextClause(), t.QueryParser.parseField;
+                return (e.nextClause(), t.QueryParser.parseField);
               case t.QueryLexer.EDIT_DISTANCE:
                 return t.QueryParser.parseEditDistance;
               case t.QueryLexer.BOOST:
                 return t.QueryParser.parseBoost;
               case t.QueryLexer.PRESENCE:
-                return e.nextClause(), t.QueryParser.parsePresence;
+                return (e.nextClause(), t.QueryParser.parsePresence);
               default:
                 var i = "Unexpected lexeme type '" + r.type + "'";
                 throw new t.QueryParseError(i, r.start, r.end);
@@ -1582,15 +1581,15 @@
             }
             switch (s.type) {
               case t.QueryLexer.TERM:
-                return e.nextClause(), t.QueryParser.parseTerm;
+                return (e.nextClause(), t.QueryParser.parseTerm);
               case t.QueryLexer.FIELD:
-                return e.nextClause(), t.QueryParser.parseField;
+                return (e.nextClause(), t.QueryParser.parseField);
               case t.QueryLexer.EDIT_DISTANCE:
                 return t.QueryParser.parseEditDistance;
               case t.QueryLexer.BOOST:
                 return t.QueryParser.parseBoost;
               case t.QueryLexer.PRESENCE:
-                return e.nextClause(), t.QueryParser.parsePresence;
+                return (e.nextClause(), t.QueryParser.parsePresence);
               default:
                 var i = "Unexpected lexeme type '" + s.type + "'";
                 throw new t.QueryParseError(i, s.start, s.end);
@@ -1613,15 +1612,15 @@
             }
             switch (s.type) {
               case t.QueryLexer.TERM:
-                return e.nextClause(), t.QueryParser.parseTerm;
+                return (e.nextClause(), t.QueryParser.parseTerm);
               case t.QueryLexer.FIELD:
-                return e.nextClause(), t.QueryParser.parseField;
+                return (e.nextClause(), t.QueryParser.parseField);
               case t.QueryLexer.EDIT_DISTANCE:
                 return t.QueryParser.parseEditDistance;
               case t.QueryLexer.BOOST:
                 return t.QueryParser.parseBoost;
               case t.QueryLexer.PRESENCE:
-                return e.nextClause(), t.QueryParser.parsePresence;
+                return (e.nextClause(), t.QueryParser.parsePresence);
               default:
                 var i = "Unexpected lexeme type '" + s.type + "'";
                 throw new t.QueryParseError(i, s.start, s.end);
@@ -1636,7 +1635,7 @@
               : (e.lunr = n());
         })(this, function () {
           return t;
-        });
+        }));
     })();
   });
   var re = [];
@@ -1646,13 +1645,13 @@
   var U = class {
     constructor() {
       this.alwaysVisibleMember = null;
-      this.createComponents(document.body),
+      (this.createComponents(document.body),
         this.ensureActivePageVisible(),
         this.ensureFocusedElementVisible(),
         this.listenForCodeCopies(),
         window.addEventListener("hashchange", () =>
           this.ensureFocusedElementVisible(),
-        );
+        ));
     }
     createComponents(e) {
       re.forEach((n) => {
@@ -1670,7 +1669,8 @@
       let e = document.querySelector(".tsd-navigation .current"),
         n = e?.parentElement;
       for (; n && !n.classList.contains(".tsd-navigation"); )
-        n instanceof HTMLDetailsElement && (n.open = !0), (n = n.parentElement);
+        (n instanceof HTMLDetailsElement && (n.open = !0),
+          (n = n.parentElement));
       if (e) {
         let r =
           e.getBoundingClientRect().top -
@@ -1692,19 +1692,19 @@
       let n = e.parentElement;
       for (; n && n.tagName !== "SECTION"; ) n = n.parentElement;
       if (n && n.offsetParent == null) {
-        (this.alwaysVisibleMember = n), n.classList.add("always-visible");
+        ((this.alwaysVisibleMember = n), n.classList.add("always-visible"));
         let r = document.createElement("p");
-        r.classList.add("warning"),
+        (r.classList.add("warning"),
           (r.textContent =
             "This member is normally hidden due to your filter settings."),
-          n.prepend(r);
+          n.prepend(r));
       }
     }
     listenForCodeCopies() {
       document.querySelectorAll("pre > button").forEach((e) => {
         let n;
         e.addEventListener("click", () => {
-          e.previousElementSibling instanceof HTMLElement &&
+          (e.previousElementSibling instanceof HTMLElement &&
             navigator.clipboard.writeText(
               e.previousElementSibling.innerText.trim(),
             ),
@@ -1712,11 +1712,11 @@
             e.classList.add("visible"),
             clearTimeout(n),
             (n = setTimeout(() => {
-              e.classList.remove("visible"),
+              (e.classList.remove("visible"),
                 (n = setTimeout(() => {
                   e.textContent = "Copy";
-                }, 100));
-            }, 1e3));
+                }, 100)));
+            }, 1e3)));
         });
       });
     }
@@ -1724,7 +1724,7 @@
   var ie = (t, e = 100) => {
     let n;
     return () => {
-      clearTimeout(n), (n = setTimeout(() => t(), e));
+      (clearTimeout(n), (n = setTimeout(() => t(), e)));
     };
   };
   var de = De(ae());
@@ -1735,25 +1735,25 @@
         .stream()
         .pipeThrough(new DecompressionStream("gzip")),
       i = await new Response(r).json();
-    (t.data = i),
+    ((t.data = i),
       (t.index = de.Index.load(i.index)),
       e.classList.remove("loading"),
-      e.classList.add("ready");
+      e.classList.add("ready"));
   }
   function he() {
     let t = document.getElementById("tsd-search");
     if (!t) return;
     let e = { base: t.dataset.base + "/" },
       n = document.getElementById("tsd-search-script");
-    t.classList.add("loading"),
+    (t.classList.add("loading"),
       n &&
         (n.addEventListener("error", () => {
-          t.classList.remove("loading"), t.classList.add("failure");
+          (t.classList.remove("loading"), t.classList.add("failure"));
         }),
         n.addEventListener("load", () => {
           le(e, t);
         }),
-        le(e, t));
+        le(e, t)));
     let r = document.querySelector("#tsd-search input"),
       i = document.querySelector("#tsd-search .results");
     if (!r || !i)
@@ -1761,15 +1761,15 @@
         "The input field or the result list wrapper was not found",
       );
     let s = !1;
-    i.addEventListener("mousedown", () => (s = !0)),
+    (i.addEventListener("mousedown", () => (s = !0)),
       i.addEventListener("mouseup", () => {
-        (s = !1), t.classList.remove("has-focus");
+        ((s = !1), t.classList.remove("has-focus"));
       }),
       r.addEventListener("focus", () => t.classList.add("has-focus")),
       r.addEventListener("blur", () => {
         s || ((s = !1), t.classList.remove("has-focus"));
       }),
-      Ae(t, i, r, e);
+      Ae(t, i, r, e));
   }
   function Ae(t, e, n, r) {
     n.addEventListener(
@@ -1779,8 +1779,8 @@
       }, 200),
     );
     let i = !1;
-    n.addEventListener("keydown", (s) => {
-      (i = !0),
+    (n.addEventListener("keydown", (s) => {
+      ((i = !0),
         s.key == "Enter"
           ? Ve(e, n)
           : s.key == "Escape"
@@ -1789,7 +1789,7 @@
               ? ue(e, -1)
               : s.key === "ArrowDown"
                 ? ue(e, 1)
-                : (i = !1);
+                : (i = !1));
     }),
       n.addEventListener("keypress", (s) => {
         i && s.preventDefault();
@@ -1801,7 +1801,7 @@
           (!n.matches(":focus") &&
             s.key === "/" &&
             (n.focus(), s.preventDefault()));
-      });
+      }));
   }
   function Ne(t, e, n, r) {
     if (!r.index || !r.data) return;
@@ -1819,40 +1819,42 @@
       let a = s[o],
         l = r.data.rows[Number(a.ref)],
         u = 1;
-      l.name.toLowerCase().startsWith(i.toLowerCase()) &&
+      (l.name.toLowerCase().startsWith(i.toLowerCase()) &&
         (u *= 1 + 1 / (1 + Math.abs(l.name.length - i.length))),
-        (a.score *= u);
+        (a.score *= u));
     }
     if (s.length === 0) {
       let o = document.createElement("li");
       o.classList.add("no-results");
       let a = document.createElement("span");
-      (a.textContent = "No results found"), o.appendChild(a), e.appendChild(o);
+      ((a.textContent = "No results found"),
+        o.appendChild(a),
+        e.appendChild(o));
     }
     s.sort((o, a) => a.score - o.score);
     for (let o = 0, a = Math.min(10, s.length); o < a; o++) {
       let l = r.data.rows[Number(s[o].ref)],
         u = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${l.kind}"></use></svg>`,
         d = ce(l.name, i);
-      globalThis.DEBUG_SEARCH_WEIGHTS &&
+      (globalThis.DEBUG_SEARCH_WEIGHTS &&
         (d += ` (score: ${s[o].score.toFixed(2)})`),
         l.parent &&
           (d = `<span class="parent">
-                ${ce(l.parent, i)}.</span>${d}`);
+                ${ce(l.parent, i)}.</span>${d}`));
       let v = document.createElement("li");
       v.classList.value = l.classes ?? "";
       let f = document.createElement("a");
-      (f.href = r.base + l.url),
+      ((f.href = r.base + l.url),
         (f.innerHTML = u + d),
         v.append(f),
-        e.appendChild(v);
+        e.appendChild(v));
     }
   }
   function ue(t, e) {
     let n = t.querySelector(".current");
     if (!n)
-      (n = t.querySelector(e == 1 ? "li:first-child" : "li:last-child")),
-        n && n.classList.add("current");
+      ((n = t.querySelector(e == 1 ? "li:first-child" : "li:last-child")),
+        n && n.classList.add("current"));
     else {
       let r = n;
       if (e === 1)
@@ -1868,7 +1870,7 @@
     let n = t.querySelector(".current");
     if ((n || (n = t.querySelector("li:first-child")), n)) {
       let r = n.querySelector("a");
-      r && (window.location.href = r.href), e.blur();
+      (r && (window.location.href = r.href), e.blur());
     }
   }
   function ce(t, e) {
@@ -1879,10 +1881,13 @@
       s = 0,
       o = n.indexOf(r);
     for (; o != -1; )
-      i.push(K(t.substring(s, o)), `<b>${K(t.substring(o, o + r.length))}</b>`),
+      (i.push(
+        K(t.substring(s, o)),
+        `<b>${K(t.substring(o, o + r.length))}</b>`,
+      ),
         (s = o + r.length),
-        (o = n.indexOf(r, s));
-    return i.push(K(t.substring(s))), i.join("");
+        (o = n.indexOf(r, s)));
+    return (i.push(K(t.substring(s))), i.join(""));
   }
   var Be = {
     "&": "&amp;",
@@ -1896,7 +1901,7 @@
   }
   var C = class {
     constructor(e) {
-      (this.el = e.el), (this.app = e.app);
+      ((this.el = e.el), (this.app = e.app));
     }
   };
   var F = "mousedown",
@@ -1915,9 +1920,9 @@
     "ontouchstart" in document.documentElement &&
     ((He = !0), (F = "touchstart"), (pe = "touchmove"), (B = "touchend"));
   document.addEventListener(F, (t) => {
-    (ee = !0), (D = !1);
+    ((ee = !0), (D = !1));
     let e = F == "touchstart" ? t.targetTouches[0] : t;
-    (J.y = e.pageY || 0), (J.x = e.pageX || 0);
+    ((J.y = e.pageY || 0), (J.x = e.pageX || 0));
   });
   document.addEventListener(pe, (t) => {
     if (ee && !D) {
@@ -1935,21 +1940,21 @@
   });
   var X = class extends C {
     constructor(e) {
-      super(e),
+      (super(e),
         (this.className = this.el.dataset.toggle || ""),
         this.el.addEventListener(B, (n) => this.onPointerUp(n)),
         this.el.addEventListener("click", (n) => n.preventDefault()),
         document.addEventListener(F, (n) => this.onDocumentPointerDown(n)),
-        document.addEventListener(B, (n) => this.onDocumentPointerUp(n));
+        document.addEventListener(B, (n) => this.onDocumentPointerUp(n)));
     }
     setActive(e) {
       if (this.active == e) return;
-      (this.active = e),
+      ((this.active = e),
         document.documentElement.classList.toggle("has-" + this.className, e),
-        this.el.classList.toggle("active", e);
+        this.el.classList.toggle("active", e));
       let n = (this.active ? "to-has-" : "from-has-") + this.className;
-      document.documentElement.classList.add(n),
-        setTimeout(() => document.documentElement.classList.remove(n), 500);
+      (document.documentElement.classList.add(n),
+        setTimeout(() => document.documentElement.classList.remove(n), 500));
     }
     onPointerUp(e) {
       D || (this.setActive(!0), e.preventDefault());
@@ -1965,9 +1970,9 @@
         let n = e.target.closest("a");
         if (n) {
           let r = window.location.href;
-          r.indexOf("#") != -1 && (r = r.substring(0, r.indexOf("#"))),
+          (r.indexOf("#") != -1 && (r = r.substring(0, r.indexOf("#"))),
             n.href.substring(0, r.length) == r &&
-              setTimeout(() => this.setActive(!1), 250);
+              setTimeout(() => this.setActive(!1), 250));
         }
       }
     }
@@ -1988,7 +1993,7 @@
   ve.dataset.for = "filters";
   var Y = class extends C {
     constructor(e) {
-      super(e),
+      (super(e),
         (this.key = `filter-${this.el.name}`),
         (this.value = this.el.checked),
         this.el.addEventListener("change", () => {
@@ -1997,19 +2002,19 @@
         this.setLocalStorage(this.fromLocalStorage()),
         (ve.innerHTML += `html:not(.${this.key}) .tsd-is-${this.el.name} { display: none; }
 `),
-        this.handleValueChange();
+        this.handleValueChange());
     }
     fromLocalStorage() {
       let e = Q.getItem(this.key);
       return e ? e === "true" : this.el.checked;
     }
     setLocalStorage(e) {
-      Q.setItem(this.key, e.toString()),
+      (Q.setItem(this.key, e.toString()),
         (this.value = e),
-        this.handleValueChange();
+        this.handleValueChange());
     }
     handleValueChange() {
-      (this.el.checked = this.value),
+      ((this.el.checked = this.value),
         document.documentElement.classList.toggle(this.key, this.value),
         this.app.filterChanged(),
         document.querySelectorAll(".tsd-index-section").forEach((e) => {
@@ -2018,37 +2023,37 @@
             (r) => r.offsetParent == null,
           );
           e.style.display = n ? "none" : "block";
-        });
+        }));
     }
   };
   var Z = class extends C {
     constructor(e) {
-      super(e),
+      (super(e),
         (this.summary = this.el.querySelector(".tsd-accordion-summary")),
         (this.icon = this.summary.querySelector("svg")),
-        (this.key = `tsd-accordion-${this.summary.dataset.key ?? this.summary.textContent.trim().replace(/\s+/g, "-").toLowerCase()}`);
+        (this.key = `tsd-accordion-${this.summary.dataset.key ?? this.summary.textContent.trim().replace(/\s+/g, "-").toLowerCase()}`));
       let n = Q.getItem(this.key);
-      (this.el.open = n ? n === "true" : this.el.open),
-        this.el.addEventListener("toggle", () => this.update());
+      ((this.el.open = n ? n === "true" : this.el.open),
+        this.el.addEventListener("toggle", () => this.update()));
       let r = this.summary.querySelector("a");
-      r &&
+      (r &&
         r.addEventListener("click", () => {
           location.assign(r.href);
         }),
-        this.update();
+        this.update());
     }
     update() {
-      (this.icon.style.transform = `rotate(${this.el.open ? 0 : -90}deg)`),
-        Q.setItem(this.key, this.el.open.toString());
+      ((this.icon.style.transform = `rotate(${this.el.open ? 0 : -90}deg)`),
+        Q.setItem(this.key, this.el.open.toString()));
     }
   };
   function ge(t) {
     let e = Q.getItem("tsd-theme") || "os";
-    (t.value = e),
+    ((t.value = e),
       ye(e),
       t.addEventListener("change", () => {
-        Q.setItem("tsd-theme", t.value), ye(t.value);
-      });
+        (Q.setItem("tsd-theme", t.value), ye(t.value));
+      }));
   }
   function ye(t) {
     document.documentElement.dataset.theme = t;
@@ -2064,24 +2069,24 @@
     let n = await (await fetch(window.navigationData)).arrayBuffer(),
       r = new Blob([n]).stream().pipeThrough(new DecompressionStream("gzip")),
       i = await new Response(r).json();
-    (Le = t.dataset.base + "/"), (t.innerHTML = "");
+    ((Le = t.dataset.base + "/"), (t.innerHTML = ""));
     for (let s of i) we(s, t, []);
-    window.app.createComponents(t), window.app.ensureActivePageVisible();
+    (window.app.createComponents(t), window.app.ensureActivePageVisible());
   }
   function we(t, e, n) {
     let r = e.appendChild(document.createElement("li"));
     if (t.children) {
       let i = [...n, t.text],
         s = r.appendChild(document.createElement("details"));
-      (s.className = t.class
+      ((s.className = t.class
         ? `${t.class} tsd-index-accordion`
         : "tsd-index-accordion"),
-        (s.dataset.key = i.join("$"));
+        (s.dataset.key = i.join("$")));
       let o = s.appendChild(document.createElement("summary"));
-      (o.className = "tsd-accordion-summary"),
+      ((o.className = "tsd-accordion-summary"),
         (o.innerHTML =
           '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="#icon-chevronDown"></use></svg>'),
-        Ee(t, o);
+        Ee(t, o));
       let a = s.appendChild(document.createElement("div"));
       a.className = "tsd-accordion-details";
       let l = a.appendChild(document.createElement("ul"));
@@ -2092,12 +2097,12 @@
   function Ee(t, e, n) {
     if (t.path) {
       let r = e.appendChild(document.createElement("a"));
-      (r.href = Le + t.path),
+      ((r.href = Le + t.path),
         n && (r.className = n),
         location.href === r.href && r.classList.add("current"),
         t.kind &&
           (r.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${t.kind}"></use></svg>`),
-        (r.appendChild(document.createElement("span")).textContent = t.text);
+        (r.appendChild(document.createElement("span")).textContent = t.text));
     } else e.appendChild(document.createElement("span")).textContent = t.text;
   }
   G(X, "a[data-toggle]");
