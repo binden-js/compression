@@ -6,8 +6,8 @@
   "type": "module",
   "types": "dist/index.d.ts",
   "engines": {
-    "node": ">=20.11.0",
-    "npm": ">=10.2.4"
+    "node": ">=24.14.1",
+    "npm": ">=11.11.0"
   },
   "scripts": {
     "build": "tsc",
