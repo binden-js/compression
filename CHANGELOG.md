@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.0.0](https://github.com/binden-js/compression/compare/v2.0.1...v3.0.0) (2026-04-14)
+
+### ⚠ BREAKING CHANGES
+
+- drop `Node.js` <24 support
+
+### Performance Improvements
+
+- drop `Node.js` <24 support ([9467525](https://github.com/binden-js/compression/commit/9467525688c95ffa3ce073b9efce738a32dae018))
+
 ## [2.0.1](https://github.com/binden-js/compression/compare/v2.0.0...v2.0.1) (2024-02-01)
 
 ## [2.0.0](https://github.com/binden-js/compression/compare/v1.0.1...v2.0.0) (2024-01-28)
