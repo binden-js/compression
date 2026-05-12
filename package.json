@@ -64,7 +64,7 @@
     "@binden/tsconfig": "^4.0.1",
     "c8": "^11.0.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
+    "lint-staged": "^17.0.4",
     "prettier": "^3.8.3",
     "tsx": "^4.21.0",
     "typedoc": "^0.28.19",
