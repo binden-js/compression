@@ -59,16 +59,16 @@
   },
   "devDependencies": {
     "@binden/commitlint-config": "^3.0.0",
-    "@binden/eslint-config-ts": "^6.0.0",
+    "@binden/eslint-config-ts": "^6.0.1",
     "@binden/semantic-release-config": "^3.0.4",
     "@binden/tsconfig": "^4.0.1",
     "c8": "^11.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.7",
-    "prettier": "^3.8.3",
+    "prettier": "^3.8.4",
     "tsx": "^4.22.4",
     "typedoc": "^0.28.19",
-    "undici": "^8.3.0"
+    "undici": "^8.4.1"
   },
   "publishConfig": {
     "access": "public"
