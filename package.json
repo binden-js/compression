@@ -62,7 +62,7 @@
     "@binden/eslint-config-ts": "^6.0.1",
     "@binden/semantic-release-config": "^3.0.4",
     "@binden/tsconfig": "^4.0.1",
-    "c8": "^11.0.0",
+    "c8": "^12.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.3.0",
     "prettier": "^3.8.3",
